@@ -25,7 +25,7 @@ class FeedController: UICollectionViewController {
         collectionView.backgroundColor = .white
         
         // We need to register a cell to the collection view so that it knows what cells to create
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        collectionView.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
     }
     
     
@@ -46,8 +46,7 @@ extension FeedController {
     
     // Tells the collection view how to create each cell
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-        cell.backgroundColor = .red
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FeedCell // casting this as a FeedCell
         return cell
     }
 }
@@ -57,6 +56,12 @@ extension FeedController {
 extension FeedController: UICollectionViewDelegateFlowLayout {
     // Whatever size this returns will be the size of each collection view cell
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 200)
+        
+        let width = view.frame.width
+        var height = width + 8 + 40 + 8 // two 8's for the white space between the top of the screen and the profile pic, and then the profile pic and the image below. 40 for the actual size of the profile pic
+        height += 50 // height of 50 for the image view
+        height += 60 // for the stuff below the image (the like button, like count, username)
+        
+        return CGSize(width: width, height: height)
     }
 }
