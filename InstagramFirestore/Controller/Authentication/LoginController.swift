@@ -18,30 +18,13 @@ class LoginController: UIViewController {
     }()
     
     private let emailTextField: UITextField = {
-        let tf = UITextField()
-        tf.borderStyle = .none
-        tf.textColor = .white
-        tf.keyboardAppearance = .dark // dark keyboard appearance
-        tf.keyboardType = .emailAddress
-        tf.backgroundColor = UIColor(white: 1, alpha: 0.1) // makes it transparent
-        tf.setHeight(50)
-        tf.attributedPlaceholder = NSAttributedString(string: "Email",
-                                                      attributes: [.foregroundColor:
-                                                                    UIColor(white: 1, alpha: 0.7)])
+        let tf = CustomTextField(placeholder: "Email")
+        tf.keyboardType = .emailAddress // a keyboard for specifying email address
         return tf
     }()
     
     private let passwordTextField: UITextField = {
-        let tf = UITextField()
-        tf.borderStyle = .none
-        tf.textColor = .white
-        tf.keyboardAppearance = .dark // dark keyboard appearance
-        tf.keyboardType = .emailAddress
-        tf.backgroundColor = UIColor(white: 1, alpha: 0.1) // makes it transparent
-        tf.setHeight(50)
-        tf.attributedPlaceholder = NSAttributedString(string: "Password",
-                                                      attributes: [.foregroundColor:
-                                                                    UIColor(white: 1, alpha: 0.7)])
+        let tf = CustomTextField(placeholder: "Password")
         tf.isSecureTextEntry = true // hides the text as it is typed
         return tf
     }()
@@ -57,30 +40,18 @@ class LoginController: UIViewController {
         return button
     }()
     
-    private let dontHaveAccountButton: UIButton = {
+    private let forgotPasswordButton: UIButton = {
         let button = UIButton(type: .system)
-        
-        let atts: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(white: 1, alpha: 0.7), .font: UIFont.systemFont(ofSize: 16)]
-        let attributedTitle = NSMutableAttributedString(string: "Don't have an account?  ", attributes: atts)
-        
-        let boldAtts: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(white: 1, alpha: 0.7), .font: UIFont.boldSystemFont(ofSize: 16)]
-        attributedTitle.append(NSAttributedString(string: "Sign Up", attributes: boldAtts))
-        
-        button.setAttributedTitle(attributedTitle, for: .normal)
-        
+        button.attributedTitle(firstPart: "Forgot your password?", secondPart: "Get help signing in.")
         return button
     }()
     
-    private let forgotPasswordButton: UIButton = {
+    private let dontHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
+        button.attributedTitle(firstPart: "Don't have an account?", secondPart: "Sign Up")
+        button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside) // action handler. We use self b/c this is the class that is going to handle the action of this button
         
-        let atts: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(white: 1, alpha: 0.7), .font: UIFont.systemFont(ofSize: 16)]
-        let attributedTitle = NSMutableAttributedString(string: "Forgot your password? ", attributes: atts)
-        
-        let boldAtts: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor(white: 1, alpha: 0.7), .font: UIFont.boldSystemFont(ofSize: 16)]
-        attributedTitle.append(NSAttributedString(string: "Get help signing in.", attributes: boldAtts))
-        
-        button.setAttributedTitle(attributedTitle, for: .normal)
+        // #selector: selectors are an Objective-C concept, so if the method is not visible to Objective-C, it does not have a selector. Objective-C is able to call it via its selector
         
         return button
     }()
@@ -93,18 +64,20 @@ class LoginController: UIViewController {
         configureUI()
     }
     
+    // MARK: - Actions
+    
+    @objc func handleShowSignUp() {
+        let controller = RegistrationController()
+        navigationController?.pushViewController(controller, animated: true) // pushViewController: Pushes a view controller onto the receiver’s stack and updates the display
+    }
+    
     // MARK: - Helpers
     
     func configureUI() {
-        view.backgroundColor = .white
+        configureGradientLayer()
+        
         navigationController?.navigationBar.isHidden = true
         navigationController?.navigationBar.barStyle = .black // this changes the text at the top of the screen to white (the time, cellular data, etc.)
-        
-        let gradient = CAGradientLayer()
-        gradient.colors = [UIColor.systemPurple.cgColor, UIColor.systemBlue.cgColor] // when you're working with core animation stuff, us the core cg extention (ex: cgColor)
-        gradient.locations = [0,1] // means this will start at the top and end at the bottom
-        view.layer.addSublayer(gradient)
-        gradient.frame = view.frame
         
         view.addSubview(iconImage)
         iconImage.centerX(inView: view)
