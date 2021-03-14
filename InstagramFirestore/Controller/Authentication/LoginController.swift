@@ -11,6 +11,8 @@ class LoginController: UIViewController {
     
     // MARK: - Properties
     
+    private var viewModel = LoginViewModel()
+    
     private let iconImage: UIImageView = {
         let iv = UIImageView(image: #imageLiteral(resourceName: "Instagram_logo_white"))
         iv.contentMode = .scaleAspectFill
@@ -33,10 +35,11 @@ class LoginController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle("Log In", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1)
+        button.backgroundColor = #colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1).withAlphaComponent(0.5)
         button.layer.cornerRadius = 5
         button.setHeight(50) // we set the height b/c we are adding it to a stack view, and by setting the height then swift will figure out how to put everything in the stack view (don't have to continuously anchor things)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        button.isEnabled = false
         return button
     }()
     
@@ -60,8 +63,8 @@ class LoginController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
+        configureNotificationObservers()
     }
     
     // MARK: - Actions
@@ -69,6 +72,16 @@ class LoginController: UIViewController {
     @objc func handleShowSignUp() {
         let controller = RegistrationController()
         navigationController?.pushViewController(controller, animated: true) // pushViewController: Pushes a view controller onto the receiver’s stack and updates the display
+    }
+    
+    @objc func textDidChange(sender: UITextField) {
+        if sender == emailTextField {
+            viewModel.email = sender.text
+        } else {
+            viewModel.password = sender.text
+        }
+        
+        updateForm()
     }
     
     // MARK: - Helpers
@@ -95,5 +108,20 @@ class LoginController: UIViewController {
         view.addSubview(dontHaveAccountButton)
         dontHaveAccountButton.centerX(inView: view)
         dontHaveAccountButton.anchor(bottom: view.safeAreaLayoutGuide.bottomAnchor)
+    }
+    
+    func configureNotificationObservers() {
+        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+        passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
+    }
+}
+
+// MARK: - FormViewModel
+
+extension LoginController: FormViewModel {
+    func updateForm() {
+        loginButton.backgroundColor = viewModel.buttonBackgroundColor
+        loginButton.setTitleColor(viewModel.buttonTitleColor, for: .normal)
+        loginButton.isEnabled = viewModel.formIsValid // if the form is valid we want to enable the button, if the form is invalid we want to disable the button
     }
 }

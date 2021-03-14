@@ -12,6 +12,7 @@
 		D030720025F1D69200BAE50B /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03071FF25F1D69200BAE50B /* FeedCell.swift */; };
 		D030720325F1D92600BAE50B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030720225F1D92600BAE50B /* Extensions.swift */; };
 		D0312DE425F90E680085561C /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0312DE325F90E680085561C /* CustomTextField.swift */; };
+		D0B3A4E425FDC4AC00212F54 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3A4E325FDC4AC00212F54 /* AuthenticationViewModel.swift */; };
 		D0EF62C425F0343F0039FAA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF62C325F0343F0039FAA4 /* AppDelegate.swift */; };
 		D0EF62C625F0343F0039FAA4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF62C525F0343F0039FAA4 /* SceneDelegate.swift */; };
 		D0EF62C825F0343F0039FAA4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF62C725F0343F0039FAA4 /* ViewController.swift */; };
@@ -32,6 +33,7 @@
 		D03071FF25F1D69200BAE50B /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		D030720225F1D92600BAE50B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		D0312DE325F90E680085561C /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		D0B3A4E325FDC4AC00212F54 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		D0EF62C025F0343F0039FAA4 /* InstagramFirestore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramFirestore.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0EF62C325F0343F0039FAA4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0EF62C525F0343F0039FAA4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 		D0EF62DA25F0351B0039FAA4 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				D0B3A4E325FDC4AC00212F54 /* AuthenticationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				D030720025F1D69200BAE50B /* FeedCell.swift in Sources */,
 				D0EF62EB25F038170039FAA4 /* ImageSelectorController.swift in Sources */,
 				D0EF62E825F038070039FAA4 /* SearchController.swift in Sources */,
+				D0B3A4E425FDC4AC00212F54 /* AuthenticationViewModel.swift in Sources */,
 				D0EF62C425F0343F0039FAA4 /* AppDelegate.swift in Sources */,
 				D0EF62E425F037F40039FAA4 /* FeedController.swift in Sources */,
 				D0EF62F125F038270039FAA4 /* ProfileController.swift in Sources */,
