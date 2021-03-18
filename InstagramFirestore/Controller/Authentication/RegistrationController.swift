@@ -17,6 +17,7 @@ class RegistrationController: UIViewController {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "plus_photo"), for: .normal)
         button.tintColor = .white
+        button.addTarget(self, action: #selector(handleProfilePhotoSelect), for: .touchUpInside)
         return button
     }()
     
@@ -83,6 +84,14 @@ class RegistrationController: UIViewController {
         updateForm()
     }
     
+    @objc func handleProfilePhotoSelect() {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        
+        present(picker, animated: true, completion: nil)
+    }
+    
     // MARK: - Helpers
     
     func configureUI() {
@@ -125,3 +134,27 @@ extension RegistrationController: FormViewModel {
     }
 }
 
+// MARK: - UIImagePickerControllerDelegate
+
+extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    // this function gets called once the user finishes picking their media type, and then we can do something after they do that
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            // implement the code here for what should happen after the user clicks "choose"
+        
+        
+        // info is a dictionary, casting value from dictionary as an image, and storing it in the selectedImage property
+        guard let selectedImage = info[.editedImage] as? UIImage else { return }
+        
+        // Even though our plush photo button image is a circle, the button itself is a square, so here we are
+        // trying to round it out
+        plusPhotoButton.layer.cornerRadius = plusPhotoButton.frame.width / 2
+        plusPhotoButton.layer.masksToBounds = true
+        plusPhotoButton.layer.borderColor = UIColor.white.cgColor
+        plusPhotoButton.layer.borderWidth = 2
+        plusPhotoButton.setImage(selectedImage.withRenderingMode(.alwaysOriginal), for: .normal) // we have to do this so that it uses the original form of the image and doesn't try to modify it in any way
+        
+        // this will dismiss the image picker
+        self.dismiss(animated: true, completion: nil)
+    }
+}
