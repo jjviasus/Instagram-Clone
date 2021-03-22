@@ -40,6 +40,7 @@ class LoginController: UIViewController {
         button.setHeight(50) // we set the height b/c we are adding it to a stack view, and by setting the height then swift will figure out how to put everything in the stack view (don't have to continuously anchor things)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         button.isEnabled = false
+        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
     
@@ -68,6 +69,21 @@ class LoginController: UIViewController {
     }
     
     // MARK: - Actions
+    
+    @objc func handleLogin() {
+        guard let email = emailTextField.text else { return }
+        guard let password = passwordTextField.text else { return }
+        
+        // function to log our user in, if we don't get the error block we dismiss the login page
+        AuthService.logUserIn(withEmail: email, password: password) { (result, error) in
+            if let error = error {
+                print("DEBUG: Failed to log user in \(error.localizedDescription)")
+                return
+            }
+            
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
     
     @objc func handleShowSignUp() {
         let controller = RegistrationController()

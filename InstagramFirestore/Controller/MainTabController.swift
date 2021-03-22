@@ -5,9 +5,10 @@
 //  Created by Justin Viasus on 3/3/21.
 //
 
-// our custom root view controller of our application
 import UIKit
+import Firebase
 
+// our custom root view controller of our application
 class MainTabController: UITabBarController {
     
     // MARK: - Lifecycle
@@ -17,6 +18,22 @@ class MainTabController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad() 
         configureViewControllers()
+        checkIfUserIsLoggedIn()
+    }
+    
+    // MARK: - API
+    
+    func checkIfUserIsLoggedIn() {
+        // Auth.auth().currentUser involves an API call to check and see if the current user is logged in or if it exists (this happens asynchronously / on some background thread)
+        if Auth.auth().currentUser == nil {
+            // We need to be on the main queue to present the login controller while the above is happening (allows us to hope back on the main thread) (any UI updating has to be on the main thread)
+            DispatchQueue.main.async {
+                let controller = LoginController()
+                let nav = UINavigationController(rootViewController: controller)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav, animated: true, completion: nil)
+            }
+        }
     }
     
     // MARK: - Helpers
