@@ -10,6 +10,8 @@
 		978D8E1C9DC32A984E2A5242 /* Pods_InstagramFirestore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79A7D9C1E47CE018BB909926 /* Pods_InstagramFirestore.framework */; };
 		D01E541D25F883040059FC4F /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01E541C25F883040059FC4F /* LoginController.swift */; };
 		D01E542025F883100059FC4F /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01E541F25F883100059FC4F /* RegistrationController.swift */; };
+		D023D6C826166EFA0048E6C8 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D023D6C726166EFA0048E6C8 /* ProfileCell.swift */; };
+		D023D6CB26166F080048E6C8 /* ProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D023D6CA26166F080048E6C8 /* ProfileHeader.swift */; };
 		D03011AC2603046C00B271DF /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D03011AB2603046C00B271DF /* GoogleService-Info.plist */; };
 		D030720025F1D69200BAE50B /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D03071FF25F1D69200BAE50B /* FeedCell.swift */; };
 		D030720325F1D92600BAE50B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D030720225F1D92600BAE50B /* Extensions.swift */; };
@@ -36,6 +38,8 @@
 		8338A3A2562DACEAD4165668 /* Pods-InstagramFirestore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstagramFirestore.release.xcconfig"; path = "Target Support Files/Pods-InstagramFirestore/Pods-InstagramFirestore.release.xcconfig"; sourceTree = "<group>"; };
 		D01E541C25F883040059FC4F /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		D01E541F25F883100059FC4F /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
+		D023D6C726166EFA0048E6C8 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		D023D6CA26166F080048E6C8 /* ProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeader.swift; sourceTree = "<group>"; };
 		D03011AB2603046C00B271DF /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		D03071FF25F1D69200BAE50B /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		D030720225F1D92600BAE50B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -98,6 +102,15 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
+		D023D6CD26166F100048E6C8 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				D023D6C726166EFA0048E6C8 /* ProfileCell.swift */,
+				D023D6CA26166F080048E6C8 /* ProfileHeader.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
 		D0EF62B725F0343F0039FAA4 = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +160,7 @@
 		D0EF62D925F0350E0039FAA4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				D023D6CD26166F100048E6C8 /* Profile */,
 				D03071FF25F1D69200BAE50B /* FeedCell.swift */,
 				D0312DE325F90E680085561C /* CustomTextField.swift */,
 			);
@@ -308,6 +322,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0312DE425F90E680085561C /* CustomTextField.swift in Sources */,
+				D023D6CB26166F080048E6C8 /* ProfileHeader.swift in Sources */,
 				D0EF62C825F0343F0039FAA4 /* ViewController.swift in Sources */,
 				D01E541D25F883040059FC4F /* LoginController.swift in Sources */,
 				D030720025F1D69200BAE50B /* FeedCell.swift in Sources */,
@@ -322,6 +337,7 @@
 				D030720325F1D92600BAE50B /* Extensions.swift in Sources */,
 				D099093E26063CC700FDB7DF /* ImageUploader.swift in Sources */,
 				D099094126063CD800FDB7DF /* AuthService.swift in Sources */,
+				D023D6C826166EFA0048E6C8 /* ProfileCell.swift in Sources */,
 				D0EF62C625F0343F0039FAA4 /* SceneDelegate.swift in Sources */,
 				D01E542025F883100059FC4F /* RegistrationController.swift in Sources */,
 			);
