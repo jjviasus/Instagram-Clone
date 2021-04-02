@@ -14,11 +14,24 @@ class ProfileController: UICollectionViewController {
     
     // MARK: - Properties
     
+    var user: User? { // optional because it starts off as nill (b/c the API call takes time)
+        didSet { navigationItem.title = user?.username } // this didSet is an observer. Whenever the user variable gets set, this code will get executed
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
+        fetchUser()
+    }
+    
+    // MARK: - API
+    
+    func fetchUser() {
+        UserService.fetchUser { user in
+            self.user = user
+        }
     }
     
     // MARK: - Helpers

@@ -42,7 +42,7 @@ struct AuthService {
                     "username": credentials.username]
                 
                 // a collection contains a bunch of documents and documents contains a bunch of fields
-                Firestore.firestore().collection("users").document(uid).setData(data, completion: completion)
+                COLLECTION_USERS.document(uid).setData(data, completion: completion)
                 
                 // we created a users collection, a document with the uid as the document identifier, and then updating the fields in the document
             }
