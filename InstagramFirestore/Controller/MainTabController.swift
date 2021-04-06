@@ -13,15 +13,28 @@ class MainTabController: UITabBarController {
     
     // MARK: - Lifecycle
     
+    private var user: User? {
+        didSet {
+            guard let user = user else { return }
+            configureViewControllers(withUser: user)
+        }
+    }
+    
     // This is what gets called when the view loads in memory by the application.
     // Anything that happens when the view loads gets put into this function.
     override func viewDidLoad() {
         super.viewDidLoad() 
-        configureViewControllers()
         checkIfUserIsLoggedIn()
+        fetchUser()
     }
     
     // MARK: - API
+    
+    func fetchUser() {
+        UserService.fetchUser { user in
+            self.user = user
+        }
+    }
     
     func checkIfUserIsLoggedIn() {
         // Auth.auth().currentUser involves an API call to check and see if the current user is logged in or if it exists (this happens asynchronously / on some background thread)
@@ -29,6 +42,7 @@ class MainTabController: UITabBarController {
             // We need to be on the main queue to present the login controller while the above is happening (allows us to hope back on the main thread) (any UI updating has to be on the main thread)
             DispatchQueue.main.async {
                 let controller = LoginController()
+                controller.delegate = self
                 let nav = UINavigationController(rootViewController: controller)
                 nav.modalPresentationStyle = .fullScreen
                 self.present(nav, animated: true, completion: nil)
@@ -39,7 +53,7 @@ class MainTabController: UITabBarController {
     // MARK: - Helpers
     
     // Where we set up all the view controllers for the tab bar controller
-    func configureViewControllers() {
+    func configureViewControllers(withUser user: User) {
         view.backgroundColor = .white
         
         let layout = UICollectionViewFlowLayout() // use this to initialize the feed controller
@@ -51,8 +65,8 @@ class MainTabController: UITabBarController {
         
         let notifications = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "like_unselected"), selectedImage: #imageLiteral(resourceName: "like_selected"), rootViewController: NotificationsController())
         
-        let profileLayout = UICollectionViewFlowLayout()
-        let profile = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "profile_unselected"), selectedImage: #imageLiteral(resourceName: "profile_selected"), rootViewController: ProfileController(collectionViewLayout: profileLayout))
+        let profileController = ProfileController(user: user)
+        let profile = templateNavigationController(unselectedImage: #imageLiteral(resourceName: "profile_unselected"), selectedImage: #imageLiteral(resourceName: "profile_selected"), rootViewController: profileController)
         
         // This is where we set the view controllers.
         // We have this property because we are inheriting from the UITabBarController
@@ -81,5 +95,14 @@ class MainTabController: UITabBarController {
         
         // Return our navigation controller
         return nav
+    }
+}
+
+// MARK: - AuthenticationDelegate
+
+extension MainTabController: AuthenticationDelegate {
+    func authenticationDidComplete() {
+        fetchUser()
+        self.dismiss(animated: true, completion: nil)
     }
 }

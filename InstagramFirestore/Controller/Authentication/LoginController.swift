@@ -7,11 +7,17 @@
 
 import UIKit
 
+protocol AuthenticationDelegate: class {
+    func authenticationDidComplete()
+}
+
 class LoginController: UIViewController {
     
     // MARK: - Properties
     
     private var viewModel = LoginViewModel()
+    weak var delegate: AuthenticationDelegate? // storing a reference of a view controller in the delegate property
+    // we use "weak" because "strong" would cause a "retain cycle"
     
     private let iconImage: UIImageView = {
         let iv = UIImageView(image: #imageLiteral(resourceName: "Instagram_logo_white"))
@@ -81,12 +87,13 @@ class LoginController: UIViewController {
                 return
             }
             
-            self.dismiss(animated: true, completion: nil)
+            self.delegate?.authenticationDidComplete()
         }
     }
     
     @objc func handleShowSignUp() {
         let controller = RegistrationController()
+        controller.delegate = delegate
         navigationController?.pushViewController(controller, animated: true) // pushViewController: Pushes a view controller onto the receiver’s stack and updates the display
     }
     

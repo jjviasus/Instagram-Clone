@@ -14,29 +14,31 @@ class ProfileController: UICollectionViewController {
     
     // MARK: - Properties
     
-    var user: User? { // optional because it starts off as nill (b/c the API call takes time)
-        didSet { navigationItem.title = user?.username } // this didSet is an observer. Whenever the user variable gets set, this code will get executed
-    }
+    private var user: User
     
     // MARK: - Lifecycle
+    
+    init(user: User) {
+        self.user = user
+        super.init(collectionViewLayout: UICollectionViewFlowLayout())
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
-        fetchUser()
     }
     
     // MARK: - API
-    
-    func fetchUser() {
-        UserService.fetchUser { user in
-            self.user = user
-        }
-    }
+
     
     // MARK: - Helpers
     
     func configureCollectionView() {
+        navigationItem.title = user.username
         collectionView.backgroundColor = .white
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: cellIdentifier)
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
@@ -63,7 +65,12 @@ extension ProfileController {
     
     // This is where we create our header
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+                
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader // as! ProfileHeader is casting it as a profile header
+        
+        // set the view model on the header
+        header.viewModel = ProfileHeaderViewModel(user: user)
+        
         return header
     }
 }
