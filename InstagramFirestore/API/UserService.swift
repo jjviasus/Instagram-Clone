@@ -7,6 +7,8 @@
 
 import Firebase
 
+typealias FirestoreCompletion = (Error?) -> Void // completion handler for firestore api calls
+
 // fetches user information
 struct UserService {
     // when called, retrieves information from Firebase
@@ -37,6 +39,18 @@ struct UserService {
             let users = snapshot.documents.map({ User(dictionary: $0.data()) })
             completion(users)
         }
+        
+    }
+    
+    static func follow(uid: String, completion: @escaping(FirestoreCompletion)) {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        COLLECTION_FOLLOWING.document(currentUid).collection("user-following").document(uid).setData([:]) { error in
+            
+            COLLECTION_FOLLOWERS.document(uid).collection("user-followers").document(currentUid).setData([:], completion: completion)
+        }
+    }
+    
+    static func unfollow(uid: String, completion: @escaping(FirestoreCompletion)) {
         
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 
 struct User {
     let email: String
@@ -13,6 +14,10 @@ struct User {
     let profileImageUrl: String
     let username: String
     let uid: String
+    
+    var isFollowed = false
+    
+    var isCurrentUser: Bool { return Auth.auth().currentUser?.uid == uid }
     
     // we get back a dictionary from Firebase, so this init method is how we are
     // going to construct our user without having to manually pass in all the data
