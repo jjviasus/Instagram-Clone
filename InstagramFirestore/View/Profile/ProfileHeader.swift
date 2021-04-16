@@ -17,6 +17,7 @@ class ProfileHeader: UICollectionReusableView {
     
     // MARK: - Properties
     
+    // every time this property gets set, this didSet block executes
     var viewModel: ProfileHeaderViewModel? {
         didSet { configure() }
     }
@@ -39,7 +40,7 @@ class ProfileHeader: UICollectionReusableView {
     
     private lazy var editProfileFollowButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Edit Profile", for: .normal)
+        button.setTitle("Loading", for: .normal)
         button.layer.cornerRadius = 3
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.layer.borderWidth = 0.5
@@ -157,6 +158,8 @@ class ProfileHeader: UICollectionReusableView {
     
     func configure() {
         guard let viewModel = viewModel else { return }
+                
+        // we use completion blocks because we want a process to complete on the backend first, and then update the UI (don't update UI before process is completed)
         
         nameLabel.text = viewModel.fullname
         profileImageView.sd_setImage(with: viewModel.profileImageUrl) // .sd_setImage loads our image from the database
