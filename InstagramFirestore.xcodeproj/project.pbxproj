@@ -24,6 +24,7 @@
 		D0859E1F2617A7080091025F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0859E1E2617A7080091025F /* User.swift */; };
 		D099093E26063CC700FDB7DF /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D099093D26063CC700FDB7DF /* ImageUploader.swift */; };
 		D099094126063CD800FDB7DF /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D099094026063CD800FDB7DF /* AuthService.swift */; };
+		D0A370CD2656FB2E004DB2E8 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A370CC2656FB2E004DB2E8 /* PostService.swift */; };
 		D0A424E8262FD73200E4850E /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A424E7262FD73200E4850E /* InputTextView.swift */; };
 		D0B3A4E425FDC4AC00212F54 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3A4E325FDC4AC00212F54 /* AuthenticationViewModel.swift */; };
 		D0EF62C425F0343F0039FAA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF62C325F0343F0039FAA4 /* AppDelegate.swift */; };
@@ -60,6 +61,7 @@
 		D0859E1E2617A7080091025F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		D099093D26063CC700FDB7DF /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
 		D099094026063CD800FDB7DF /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		D0A370CC2656FB2E004DB2E8 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		D0A424E7262FD73200E4850E /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
 		D0B3A4E325FDC4AC00212F54 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		D0EF62C025F0343F0039FAA4 /* InstagramFirestore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramFirestore.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -216,6 +218,7 @@
 				D099093D26063CC700FDB7DF /* ImageUploader.swift */,
 				D099094026063CD800FDB7DF /* AuthService.swift */,
 				D0859E142617A50C0091025F /* UserService.swift */,
+				D0A370CC2656FB2E004DB2E8 /* PostService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				D030720325F1D92600BAE50B /* Extensions.swift in Sources */,
 				D099093E26063CC700FDB7DF /* ImageUploader.swift in Sources */,
 				D099094126063CD800FDB7DF /* AuthService.swift in Sources */,
+				D0A370CD2656FB2E004DB2E8 /* PostService.swift in Sources */,
 				D0859E152617A50C0091025F /* UserService.swift in Sources */,
 				D023D6C826166EFA0048E6C8 /* ProfileCell.swift in Sources */,
 				D0EF62C625F0343F0039FAA4 /* SceneDelegate.swift in Sources */,
