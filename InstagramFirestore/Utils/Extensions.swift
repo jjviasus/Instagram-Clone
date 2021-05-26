@@ -6,14 +6,28 @@
 //
 
 import UIKit
+import JGProgressHUD
 
 extension UIViewController {
+    // extensions must have static properties, so we need the static keyword
+    static let hud = JGProgressHUD(style: .dark)
+    
     func configureGradientLayer() {
         let gradient = CAGradientLayer()
         gradient.colors = [UIColor.systemPurple.cgColor, UIColor.systemBlue.cgColor] // when you're working with core animation stuff, us the core cg extention (ex: cgColor)
         gradient.locations = [0,1] // means this will start at the top and end at the bottom
         view.layer.addSublayer(gradient)
         gradient.frame = view.frame
+    }
+    
+    func showLoader(_ show: Bool) {
+        view.endEditing(true)
+        
+        if show {
+            UIViewController.hud.show(in: view)
+        } else {
+            UIViewController.hud.dismiss()
+        }
     }
 }
 
