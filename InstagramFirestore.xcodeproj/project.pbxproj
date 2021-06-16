@@ -22,6 +22,7 @@
 		D0859E152617A50C0091025F /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0859E142617A50C0091025F /* UserService.swift */; };
 		D0859E182617A5510091025F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0859E172617A5510091025F /* Constants.swift */; };
 		D0859E1F2617A7080091025F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0859E1E2617A7080091025F /* User.swift */; };
+		D08C0A4C2679865000DCF74F /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08C0A4B2679865000DCF74F /* Post.swift */; };
 		D099093E26063CC700FDB7DF /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D099093D26063CC700FDB7DF /* ImageUploader.swift */; };
 		D099094126063CD800FDB7DF /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D099094026063CD800FDB7DF /* AuthService.swift */; };
 		D0A370CD2656FB2E004DB2E8 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A370CC2656FB2E004DB2E8 /* PostService.swift */; };
@@ -59,6 +60,7 @@
 		D0859E142617A50C0091025F /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		D0859E172617A5510091025F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		D0859E1E2617A7080091025F /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		D08C0A4B2679865000DCF74F /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		D099093D26063CC700FDB7DF /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
 		D099094026063CD800FDB7DF /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		D0A370CC2656FB2E004DB2E8 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				D0859E1E2617A7080091025F /* User.swift */,
+				D08C0A4B2679865000DCF74F /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				D0EF62EE25F0381F0039FAA4 /* NotificationsController.swift in Sources */,
 				D030720325F1D92600BAE50B /* Extensions.swift in Sources */,
 				D099093E26063CC700FDB7DF /* ImageUploader.swift in Sources */,
+				D08C0A4C2679865000DCF74F /* Post.swift in Sources */,
 				D099094126063CD800FDB7DF /* AuthService.swift in Sources */,
 				D0A370CD2656FB2E004DB2E8 /* PostService.swift in Sources */,
 				D0859E152617A50C0091025F /* UserService.swift in Sources */,
