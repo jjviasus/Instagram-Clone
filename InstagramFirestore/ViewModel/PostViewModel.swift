@@ -13,11 +13,25 @@ struct PostViewModel {
     
     var imageUrl: URL? { return URL(string: post.imageUrl) }
     
+    var userProfileImageUrl: URL? { return URL(string: post.ownerImageUrl) }
+    
+    var username: String { return post.ownerUsername }
+    
     var caption: String { return post.caption }
     
     var likes: Int { return post.likes }
     
-    init(post: Post) { self.post = post }
+    var likesLabelText: String {
+        if post.likes != 1 {
+            return "\(post.likes) likes"
+        } else {
+            return "\(post.likes) like"
+        }
+    }
+    
+    init(post: Post) {
+        self.post = post
+    }
 }
 
 // the point of a view model is to take stress off of the view file, and make it so that
