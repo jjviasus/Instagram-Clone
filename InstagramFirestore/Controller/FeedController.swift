@@ -25,6 +25,14 @@ class FeedController: UICollectionViewController {
     
     // MARK: - Actions
     
+    @objc func handleRefresh() {
+        // remove all the posts from the array
+        posts.removeAll()
+        
+        // refetch the posts
+        fetchPosts()
+    }
+    
     // when the user hits the logout button
     @objc func handleLogout() {
         do {
@@ -47,6 +55,7 @@ class FeedController: UICollectionViewController {
     func fetchPosts() {
         PostService.fetchPosts { posts in
             self.posts = posts
+            self.collectionView.refreshControl?.endRefreshing()
             self.collectionView.reloadData()
         }
     }
@@ -63,6 +72,10 @@ class FeedController: UICollectionViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
         
         navigationItem.title = "Feed"
+        
+        let refresher = UIRefreshControl()
+        refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView.refreshControl = refresher
     }
     
     
