@@ -41,8 +41,8 @@ class FeedController: UICollectionViewController {
             
             // presents them with the login page
             let controller = LoginController()
-            let nav = UINavigationController(rootViewController: controller)
             controller.delegate = self.tabBarController as? MainTabController
+            let nav = UINavigationController(rootViewController: controller)
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true, completion: nil)
         } catch {
@@ -102,7 +102,7 @@ extension FeedController {
     }
 }
 
-// Mark: - UICollectionViewDelegateFlowLayout
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension FeedController: UICollectionViewDelegateFlowLayout {
     // Whatever size this returns will be the size of each collection view cell
