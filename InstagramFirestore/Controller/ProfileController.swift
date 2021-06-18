@@ -15,6 +15,7 @@ class ProfileController: UICollectionViewController {
     // MARK: - Properties
     
     private var user: User
+    private var posts = [Post]()
     
     // MARK: - Lifecycle
     
@@ -32,6 +33,7 @@ class ProfileController: UICollectionViewController {
         configureCollectionView()
         checkIfUserIsFollowed()
         fetchUserStats()
+        fetchPosts()
     }
     
     // MARK: - API
@@ -47,8 +49,13 @@ class ProfileController: UICollectionViewController {
         UserService.fetchUserStats(uid: user.uid) { stats in
             self.user.stats = stats
             self.collectionView.reloadData()
-            
-            print("DEBUG: Stats \(stats)")
+        }
+    }
+    
+    func fetchPosts() {
+        PostService.fetchPosts(forUser: user.uid) { posts in
+            self.posts = posts
+            self.collectionView.reloadData()
         }
     }
 
@@ -69,12 +76,13 @@ class ProfileController: UICollectionViewController {
 extension ProfileController {
     // this function tells our collection view how many cells to return
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            return 9
+        return posts.count
     }
     
     // this function tells our collection view what cell to render for the collection view (we cant it to be a ProfileCell)
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellIdentifier, for: indexPath) as! ProfileCell // dequeuing is just Swift's memory management
+        cell.viewModel = PostViewModel(post: posts[indexPath.row])
         return cell
         
         // when cells go off screen they get dequeued and if they are about to come back on the screen they get queued
@@ -96,9 +104,18 @@ extension ProfileController {
 
 // MARK: UICollectionViewDelegate
 
-// this is stuff for selecting items in the collection view
+// when an item is selected in the collection view (a post is selected on the profile page)
 extension ProfileController {
-    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // create an instance of the feed controller
+        let controller = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
+        
+        // set the post using the correct one that we selected
+        controller.post = posts[indexPath.row]
+        
+        // pushes the controller onto the navigation stack
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 // MARK: UICollectionViewDelegateFlowLayout

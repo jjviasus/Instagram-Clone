@@ -30,12 +30,13 @@ struct User {
         self.username = dictionary["username"] as? String ?? ""
         self.uid = dictionary["uid"] as? String ?? ""
         
-        self.stats = UserStats(followers: 0, following: 0)
+        // Default stats (0,0,0) that get set properly after the API Call
+        self.stats = UserStats(followers: 0, following: 0, posts: 0)
     }
 }
 
 struct UserStats {
     let followers: Int
     let following: Int
- // let posts: Int
+    let posts: Int
 }

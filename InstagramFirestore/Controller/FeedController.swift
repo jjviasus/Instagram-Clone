@@ -17,6 +17,9 @@ class FeedController: UICollectionViewController {
     
     private var posts = [Post]()
     
+    // if this has a value (not nil), then we only want to show one post in the feed, otherwise (nil) we want to show all the posts.
+    var post: Post?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -52,7 +55,12 @@ class FeedController: UICollectionViewController {
     
     // MARK: - API
     
+    // This function only executes the api call if post is not equal to nil
     func fetchPosts() {
+        // In a guard statement, you check a condition and if it is met, you go on and complete the rest of the code after it. Otherwise it returns out of the function. (prevents us from making an unecessary api call)
+        guard post == nil else { return }
+        
+        // api call
         PostService.fetchPosts { posts in
             self.posts = posts
             self.collectionView.refreshControl?.endRefreshing()
@@ -68,8 +76,13 @@ class FeedController: UICollectionViewController {
         // We need to register a cell to the collection view so that it knows what cells to create
         collectionView.register(FeedCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
-        // logout button
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
+        if post == nil {
+            // logout button
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout",
+                                                               style: .plain,
+                                                               target: self,
+                                                               action: #selector(handleLogout))
+        }
         
         navigationItem.title = "Feed"
         
@@ -91,13 +104,20 @@ class FeedController: UICollectionViewController {
 extension FeedController {
     // Tells the collection view how many cells to create
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+        return post == nil ? posts.count : 1
     }
     
     // Tells the collection view how to create each cell
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FeedCell // casting this as a FeedCell
-        cell.viewModel = PostViewModel(post: posts[indexPath.row])
+        
+        // configure feed with the correct posts
+        if let post = post { // if the post is not equal to nil, then we store it in this value (post (stored in this value) = post (not nil)).
+            cell.viewModel = PostViewModel(post: post)
+        } else {
+            cell.viewModel = PostViewModel(post: posts[indexPath.row])
+        }
+        
         return cell
     }
 }
