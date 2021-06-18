@@ -13,11 +13,40 @@ class CommentController: UICollectionViewController {
     
     // MARK: - Properties
     
+    // we have to make this a lazy variable because we are trying to access the view.frame.width stuff outside of a viewDidLoad or a function.
+    private lazy var commentInputView: CommentInputAccessoryView = {
+        let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
+        let cv = CommentInputAccessoryView(frame: frame)
+        return cv
+    }()
+    
     // MARK: - Lifecycle
     
+    // only called once the view is loaded in memory (once, which is when the controller is instantiated)
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
+    }
+    
+    // This is declaring the commentInputView as the view's inputAccessoryView
+    override var inputAccessoryView: UIView? {
+        get { return commentInputView }
+    }
+    
+    // Gives it the funcitonality of hiding and showing the keyboard, and moving it along with the keyboard
+    override var canBecomeFirstResponder: Bool {
+        return true
+    }
+    
+    // called every time the view is about to appear on screen
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        tabBarController?.tabBar.isHidden = false
     }
     
     // MARK: - Helpers
@@ -42,7 +71,6 @@ extension CommentController {
     // tells our collection view what exactly it is returning (in terms of cells)
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-        cell.backgroundColor = .red
         return cell
     }
 }
