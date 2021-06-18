@@ -111,6 +111,8 @@ extension FeedController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! FeedCell // casting this as a FeedCell
         
+        cell.delegate = self
+        
         // configure feed with the correct posts
         if let post = post { // if the post is not equal to nil, then we store it in this value (post (stored in this value) = post (not nil)).
             cell.viewModel = PostViewModel(post: post)
@@ -134,5 +136,14 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
         height += 60 // for the stuff below the image (the like button, like count, username)
         
         return CGSize(width: width, height: height)
+    }
+}
+
+// MARK: - FeedCellDelegate
+
+extension FeedController: FeedCellDelegate {
+    func cell(_ cell: FeedCell, wantsToShowCommentsFor post: Post) {
+        let controller = CommentController(collectionViewLayout: UICollectionViewFlowLayout())
+        navigationController?.pushViewController(controller, animated: true)
     }
 }

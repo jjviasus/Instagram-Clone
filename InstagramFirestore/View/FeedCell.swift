@@ -7,6 +7,11 @@
 
 import UIKit
 
+// we created this protocol which is how we are going to handle all of the actions for each button on the feed
+protocol FeedCellDelegate: class {
+    func cell(_ cell: FeedCell, wantsToShowCommentsFor post: Post)
+}
+
 class FeedCell: UICollectionViewCell {
     
     // MARK: - Properties
@@ -14,6 +19,8 @@ class FeedCell: UICollectionViewCell {
     var viewModel: PostViewModel? {
         didSet { configure() }
     }
+    
+    weak var delegate: FeedCellDelegate?
     
     private let profileImageView: UIImageView = {
         // here we create and return a UIImageView
@@ -55,6 +62,7 @@ class FeedCell: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setImage(#imageLiteral(resourceName: "comment"), for: .normal)
         button.tintColor = .black
+        button.addTarget(self, action: #selector(didTapComments), for: .touchUpInside)
         return button
     }()
     
@@ -128,6 +136,16 @@ class FeedCell: UICollectionViewCell {
     
     @objc func didTapUsername() {
         print("DEBUG: did tap username")
+    }
+    
+    @objc func didTapComments() {
+        // a collection view cell doesn't have access to the UINavigationController only view controllers do
+        // what we need to do is delegate that action from the cell back to the controller, and we will do so by the use of the FeedCellDelegate protocol
+        
+        // we need to safely unwrap the view model because the view model is optional
+        guard let viewModel = viewModel else { return }
+        
+        delegate?.cell(self, wantsToShowCommentsFor: viewModel.post)
     }
     
     // MARK: - Helpers

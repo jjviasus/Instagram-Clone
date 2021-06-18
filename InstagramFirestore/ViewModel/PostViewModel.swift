@@ -9,7 +9,7 @@ import Foundation
 
 // this view model needs a post to configure itself with the right data
 struct PostViewModel {
-    private let post: Post
+    let post: Post
     
     var imageUrl: URL? { return URL(string: post.imageUrl) }
     
