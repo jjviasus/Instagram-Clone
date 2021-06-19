@@ -17,6 +17,7 @@ class CommentController: UICollectionViewController {
     private lazy var commentInputView: CommentInputAccessoryView = {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
         let cv = CommentInputAccessoryView(frame: frame)
+        cv.delegate = self
         return cv
     }()
     
@@ -41,7 +42,7 @@ class CommentController: UICollectionViewController {
     // called every time the view is about to appear on screen
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = true
+        tabBarController?.tabBar.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -57,6 +58,10 @@ class CommentController: UICollectionViewController {
         collectionView.backgroundColor = .white
         // register our collection view cell
         collectionView.register(CommentCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        
+        // allows the user to always have the keyboard pop up and easily dismiss it
+        collectionView.alwaysBounceVertical = true
+        collectionView.keyboardDismissMode = .interactive
     }
 }
 
@@ -65,7 +70,7 @@ class CommentController: UICollectionViewController {
 extension CommentController {
     // tells our collection view how many cells to return
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return 2
     }
     
     // tells our collection view what exactly it is returning (in terms of cells)
@@ -82,5 +87,13 @@ extension CommentController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         return CGSize(width: view.frame.width, height: 80)
+    }
+}
+
+// MARK: - CommentInputAccessoryViewDelegate
+
+extension CommentController: CommentInputAccessoryViewDelegate {
+    func inputView(_ inputView: CommentInputAccessoryView, wantsToUploadComment comment: String) {
+        inputView.clearCommentTextView()
     }
 }

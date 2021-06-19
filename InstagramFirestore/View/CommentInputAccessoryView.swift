@@ -7,9 +7,16 @@
 
 import UIKit
 
+// a class protocol to prevent retain cycles
+protocol CommentInputAccessoryViewDelegate: class {
+    func inputView(_ inputView: CommentInputAccessoryView, wantsToUploadComment comment: String)
+}
+
 class CommentInputAccessoryView: UIView {
     
     // MARK: - Properties
+    
+    weak var delegate: CommentInputAccessoryViewDelegate?
     
     private let commentTextView: InputTextView = {
         let tv = InputTextView()
@@ -24,6 +31,7 @@ class CommentInputAccessoryView: UIView {
         let button = UIButton(type: .system)
         button.setTitle("Post", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         button.addTarget(self, action: #selector(handlePostTapped), for: .touchUpInside)
         return button
     }()
@@ -33,6 +41,7 @@ class CommentInputAccessoryView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        backgroundColor = .white
         autoresizingMask = .flexibleHeight // gives it a flexible height for when the keyboard is hidden and shown (when the keyboard is hidden, there is a bit of extra space between the text box and the bottom of the screen which is flexible with mutiple device types)
         
         addSubview(postButton)
@@ -40,7 +49,8 @@ class CommentInputAccessoryView: UIView {
         postButton.setDimensions(height: 50, width: 50)
         
         addSubview(commentTextView)
-        commentTextView.anchor(top: topAnchor, left: leftAnchor, bottom: safeAreaLayoutGuide.bottomAnchor, right: postButton.leftAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8)
+        commentTextView.anchor(top: topAnchor, left: leftAnchor,
+                               bottom: safeAreaLayoutGuide.bottomAnchor, right: postButton.leftAnchor, paddingTop: 8, paddingLeft: 8, paddingBottom: 8, paddingRight: 8)
         
         let divider = UIView()
         divider.backgroundColor = .lightGray
@@ -60,6 +70,13 @@ class CommentInputAccessoryView: UIView {
     // MARK: - Actions
     
     @objc func handlePostTapped() {
-        
+        delegate?.inputView(self, wantsToUploadComment: commentTextView.text)
+    }
+    
+    // MARK: - Helpers
+    
+    func clearCommentTextView() {
+        commentTextView.text = nil
+        commentTextView.placeholderLabel.isHidden = false
     }
 }
