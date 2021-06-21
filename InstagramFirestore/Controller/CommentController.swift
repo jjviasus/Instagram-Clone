@@ -14,6 +14,7 @@ class CommentController: UICollectionViewController {
     // MARK: - Properties
     
     private let post: Post
+    private var comments = [Comment]()
     
     // we have to make this a lazy variable because we are trying to access the view.frame.width stuff outside of a viewDidLoad or a function.
     private lazy var commentInputView: CommentInputAccessoryView = {
@@ -38,6 +39,7 @@ class CommentController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
+        fetchComments()
     }
     
     // This is declaring the commentInputView as the view's inputAccessoryView
@@ -61,6 +63,15 @@ class CommentController: UICollectionViewController {
         tabBarController?.tabBar.isHidden = false
     }
     
+    // MARK: - API
+    
+    func fetchComments() {
+        CommentService.fetchComments(forPost: post.postId) { comments in
+            self.comments = comments
+            self.collectionView.reloadData()
+        }
+    }
+    
     // MARK: - Helpers
     
     func configureCollectionView() {
@@ -81,7 +92,7 @@ class CommentController: UICollectionViewController {
 extension CommentController {
     // tells our collection view how many cells to return
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return comments.count
     }
     
     // tells our collection view what exactly it is returning (in terms of cells)
@@ -112,7 +123,7 @@ extension CommentController: CommentInputAccessoryViewDelegate {
         // show the loader so a user can't mash the button
         self.showLoader(true)
         
-        CommentService.uploadComment(comment: comment, postID: post.postId, user: user) { error in            
+        CommentService.uploadComment(comment: comment, postID: post.postId, user: user) { error in
             // as soon as it is finished uploading we make the loader go away and clear the text view
             self.showLoader(false)
             inputView.clearCommentTextView()
