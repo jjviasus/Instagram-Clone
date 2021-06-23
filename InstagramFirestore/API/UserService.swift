@@ -11,10 +11,9 @@ typealias FirestoreCompletion = (Error?) -> Void // completion handler for fires
 
 // fetches user information
 struct UserService {
-    // when called, retrieves information from Firebase
-    static func fetchUser(completion: @escaping(User) -> Void) { // the completion handler gives us back our user
+    // when called, retrieves information about a specific user with the given uid from Firebase
+    static func fetchUser(withUid uid: String, completion: @escaping(User) -> Void) { // the 
         // gets the current user's user id
-        guard let uid = Auth.auth().currentUser?.uid else { return }
         COLLECTION_USERS.document(uid).getDocument { snapshot, error in
             // this gives us all the data in a dictionary format
             //print("DEBUG: Snapshot is \(snapshot?.data())")
