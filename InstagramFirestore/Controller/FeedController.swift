@@ -152,13 +152,21 @@ extension FeedController: FeedCellDelegate {
         
         if post.didLike { // the post has already been liked
             // we want to unlike it
-            print("DEBUG: Unlike post here")
+            print("DEBUG: Unlike post here..")
+            PostService.unlikePost(post: post) { _ in
+                print("DEBUG: Unlike post did complete..")
+                cell.likeButton.setImage(#imageLiteral(resourceName: "like_unselected"), for: .normal)
+                cell.likeButton.tintColor = .black
+            }
         } else {
             // the post has not been liked, we want to like it
-            PostService.likePost(post: post) { error in
-                if let error = error {
-                    print("DEBUG: Failed to like post with \(error)")
-                }
+            print("DEBUG: Like post here..")
+            PostService.likePost(post: post) { _ in
+                // to check for an error, change _ to error above
+//                if let error = error {
+//                    print("DEBUG: Failed to like post with \(error)")
+//                }
+                print("DEBUG: Like post did complete..")
                 cell.likeButton.setImage(#imageLiteral(resourceName: "like_selected"), for: .normal)
                 cell.likeButton.tintColor = .red
             }
