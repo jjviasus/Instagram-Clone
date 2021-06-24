@@ -66,7 +66,7 @@ struct PostService {
     
     static func unlikePost(post: Post, completion: @escaping(FirestoreCompletion)) {
         guard let uid = Auth.auth().currentUser?.uid else { return } // grab the current user id (this is the person who is unliking the post)
-//        guard post.likes > 0 else { return } // prevents us from having negative likes on a post
+        guard post.likes > 0 else { return } // prevents us from having negative likes on a post
         
         // decrement the number of likes on the post
         COLLECTION_POSTS.document(post.postId).updateData(["likes": post.likes - 1])
@@ -76,6 +76,17 @@ struct PostService {
             // deletes the post from the list of liked posts of the user
             COLLECTION_USERS.document(uid).collection("user-likes").document(post.postId).delete(completion: completion)
             // finally we execute the completion to indicate that we are done with the unlikePost function and can update the UI in our controller
+        }
+    }
+    
+    static func checkIfUserLikedPost(post: Post, completion: @escaping(Bool) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return } // grab the current user id
+
+        COLLECTION_USERS.document(uid).collection("user-likes").document(post.postId).getDocument { snapshot, _ in
+            // if the snapshot exists, that means the user has liked the post (didLike will be true).
+            // if the snapshot does not exist, that means the user has not liked the post (didLike will be false).
+            guard let didLike = snapshot?.exists else { return }
+            completion(didLike)
         }
     }
 }

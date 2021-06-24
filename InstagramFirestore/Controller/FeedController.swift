@@ -15,7 +15,10 @@ class FeedController: UICollectionViewController {
     
     // MARK: - Lifecycle
     
-    private var posts = [Post]()
+    // everytime something gets modified in this Post array, it is going to reload the collection view data
+    private var posts = [Post]() {
+        didSet { collectionView.reloadData() }
+    }
     
     // if this has a value (not nil), then we only want to show one post in the feed, otherwise (nil) we want to show all the posts.
     var post: Post?
@@ -64,7 +67,19 @@ class FeedController: UICollectionViewController {
         PostService.fetchPosts { posts in
             self.posts = posts
             self.collectionView.refreshControl?.endRefreshing()
-            self.collectionView.reloadData()
+            self.checkIfUserLikedPosts() // all the posts are fetched before we call this function
+        }
+    }
+    
+    func checkIfUserLikedPosts() {
+        // goes through every post and checks if it is liked or not
+        self.posts.forEach { post in
+            PostService.checkIfUserLikedPost(post: post) { didLike in
+                // finds the index of the particular post we are looking at where the post id's are equal (50. Check If User Liked Post: 14:00 into video)
+                if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
+                    self.posts[index].didLike = didLike // we get back true or false for didLike from the API call
+                }
+            }
         }
     }
     
@@ -152,23 +167,21 @@ extension FeedController: FeedCellDelegate {
         
         if post.didLike { // the post has already been liked
             // we want to unlike it
-            print("DEBUG: Unlike post here..")
             PostService.unlikePost(post: post) { _ in
-                print("DEBUG: Unlike post did complete..")
                 cell.likeButton.setImage(#imageLiteral(resourceName: "like_unselected"), for: .normal)
                 cell.likeButton.tintColor = .black
+                cell.viewModel?.post.likes = post.likes - 1
             }
         } else {
             // the post has not been liked, we want to like it
-            print("DEBUG: Like post here..")
             PostService.likePost(post: post) { _ in
                 // to check for an error, change _ to error above
 //                if let error = error {
 //                    print("DEBUG: Failed to like post with \(error)")
 //                }
-                print("DEBUG: Like post did complete..")
                 cell.likeButton.setImage(#imageLiteral(resourceName: "like_selected"), for: .normal)
                 cell.likeButton.tintColor = .red
+                cell.viewModel?.post.likes = post.likes + 1
             }
         }
     }

@@ -5,7 +5,7 @@
 //  Created by Justin Viasus on 6/15/21.
 //
 
-import Foundation
+import UIKit
 
 // this view model needs a post to configure itself with the right data
 struct PostViewModel {
@@ -20,6 +20,15 @@ struct PostViewModel {
     var caption: String { return post.caption }
     
     var likes: Int { return post.likes }
+    
+    var likeButtonTintColor: UIColor {
+        return post.didLike ? .red : .black
+    }
+    
+    var likeButtonImage: UIImage? {
+        let imageName = post.didLike ? "like_selected" : "like_unselected"
+        return UIImage(named: imageName)
+    }
     
     var likesLabelText: String {
         if post.likes != 1 {
