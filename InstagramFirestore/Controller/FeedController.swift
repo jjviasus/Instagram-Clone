@@ -66,8 +66,8 @@ class FeedController: UICollectionViewController {
         // api call
         PostService.fetchPosts { posts in
             self.posts = posts
-            self.collectionView.refreshControl?.endRefreshing()
             self.checkIfUserLikedPosts() // all the posts are fetched before we call this function
+            self.collectionView.refreshControl?.endRefreshing()
         }
     }
     
@@ -156,6 +156,9 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
 
 // MARK: - FeedCellDelegate
 
+// - We use extension because we want FeedController to conform to the FeedCellDelegate protocol.
+// - "In Swift, you can even extend a protocol to provide implementations of its requirements or add additional functionality that conforming types can take advantage of."
+// - Below we are implementing the two functions for this protocol.
 extension FeedController: FeedCellDelegate {
     func cell(_ cell: FeedCell, wantsToShowCommentsFor post: Post) {
         let controller = CommentController(post: post)
