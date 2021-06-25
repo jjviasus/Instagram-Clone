@@ -47,7 +47,7 @@ class UserCell: UITableViewCell {
         addSubview(profileImageView)
         profileImageView.setDimensions(height: 48, width: 48)
         profileImageView.layer.cornerRadius = 48 / 2
-            profileImageView.centerY(inView: self, leftAnchor: leftAnchor, paddingLeft: 12) // a helper function to center something on the Y axis, anchors it to the left side of the cell, padding left means it sticks out 12 pixels from the right
+        profileImageView.centerY(inView: self, leftAnchor: leftAnchor, paddingLeft: 12) // a helper function to center something on the Y axis, anchors it to the left side of the cell, padding left means it sticks out 12 pixels from the right
         
         let stack = UIStackView(arrangedSubviews: [usernameLabel, fullnameLabel])
         stack.axis = .vertical
