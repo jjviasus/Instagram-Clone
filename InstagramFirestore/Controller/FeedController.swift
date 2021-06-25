@@ -160,6 +160,13 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
 // - "In Swift, you can even extend a protocol to provide implementations of its requirements or add additional functionality that conforming types can take advantage of."
 // - Below we are implementing the two functions for this protocol.
 extension FeedController: FeedCellDelegate {
+    func cell(_ cell: FeedCell, wantsToShowProfileFor uid: String) {
+        UserService.fetchUser(withUid: uid) { user in
+            let controller = ProfileController(user: user)
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
+    
     func cell(_ cell: FeedCell, wantsToShowCommentsFor post: Post) {
         let controller = CommentController(post: post)
         navigationController?.pushViewController(controller, animated: true)

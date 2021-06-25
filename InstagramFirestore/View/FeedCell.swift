@@ -11,6 +11,7 @@ import UIKit
 protocol FeedCellDelegate: class {
     func cell(_ cell: FeedCell, wantsToShowCommentsFor post: Post)
     func cell(_ cell: FeedCell, didLike post: Post)
+    func cell(_ cell: FeedCell, wantsToShowProfileFor uid: String)
 }
 
 class FeedCell: UICollectionViewCell {
@@ -23,7 +24,7 @@ class FeedCell: UICollectionViewCell {
     
     weak var delegate: FeedCellDelegate?
     
-    private let profileImageView: UIImageView = {
+    private lazy var profileImageView: UIImageView = {
         // here we create and return a UIImageView
         
         let iv = UIImageView()
@@ -32,6 +33,11 @@ class FeedCell: UICollectionViewCell {
         iv.clipsToBounds = true
         iv.isUserInteractionEnabled = true
         iv.backgroundColor = .lightGray
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(showUserProfile))
+        iv.isUserInteractionEnabled = true
+        iv.addGestureRecognizer(tap)
+        
         return iv
     }()
     
@@ -39,7 +45,7 @@ class FeedCell: UICollectionViewCell {
         let button = UIButton(type: .system)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 13)
-        button.addTarget(self, action: #selector(didTapUsername), for: .touchUpInside) // we use lazy b/c of we are trying to add a target before this class is initialized (the one below). In other words we can't add a target if it doesn't exist yet. It doesn't exist until the initialization function is called below (init func below).
+        button.addTarget(self, action: #selector(showUserProfile), for: .touchUpInside) // we use lazy b/c of we are trying to add a target before this class is initialized (the one below). In other words we can't add a target if it doesn't exist yet. It doesn't exist until the initialization function is called below (init func below).
         return button
     }()
     
@@ -136,8 +142,9 @@ class FeedCell: UICollectionViewCell {
     
     // MARK: - Actions
     
-    @objc func didTapUsername() {
-        print("DEBUG: did tap username")
+    @objc func showUserProfile() {
+        guard let viewModel = viewModel else { return }
+        delegate?.cell(self, wantsToShowProfileFor: viewModel.post.ownerUid)
     }
     
     @objc func didTapComments() {
