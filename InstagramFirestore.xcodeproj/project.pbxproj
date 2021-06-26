@@ -36,6 +36,7 @@
 		D0A370CD2656FB2E004DB2E8 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A370CC2656FB2E004DB2E8 /* PostService.swift */; };
 		D0A424E8262FD73200E4850E /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A424E7262FD73200E4850E /* InputTextView.swift */; };
 		D0B3A4E425FDC4AC00212F54 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B3A4E325FDC4AC00212F54 /* AuthenticationViewModel.swift */; };
+		D0CFF0AD2687BE6E007C9E11 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CFF0AC2687BE6E007C9E11 /* NotificationViewModel.swift */; };
 		D0D058372680363E00EA748C /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D058362680363E00EA748C /* CommentService.swift */; };
 		D0D0583926803C3B00EA748C /* Comments.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D0583826803C3B00EA748C /* Comments.swift */; };
 		D0EF62C425F0343F0039FAA4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF62C325F0343F0039FAA4 /* AppDelegate.swift */; };
@@ -84,6 +85,7 @@
 		D0A370CC2656FB2E004DB2E8 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		D0A424E7262FD73200E4850E /* InputTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTextView.swift; sourceTree = "<group>"; };
 		D0B3A4E325FDC4AC00212F54 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
+		D0CFF0AC2687BE6E007C9E11 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		D0D058362680363E00EA748C /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		D0D0583826803C3B00EA748C /* Comments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comments.swift; sourceTree = "<group>"; };
 		D0EF62C025F0343F0039FAA4 /* InstagramFirestore.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramFirestore.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,6 +225,7 @@
 				D01365082624EB63004E63E6 /* UserCellViewModel.swift */,
 				D08C0A4D26798AA800DCF74F /* PostViewModel.swift */,
 				D04CD6DF26836BD300777B5B /* CommentViewModel.swift */,
+				D0CFF0AC2687BE6E007C9E11 /* NotificationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D04CD6E026836BD300777B5B /* CommentViewModel.swift in Sources */,
+				D0CFF0AD2687BE6E007C9E11 /* NotificationViewModel.swift in Sources */,
 				D08C0A4E26798AA800DCF74F /* PostViewModel.swift in Sources */,
 				D0312DE425F90E680085561C /* CustomTextField.swift in Sources */,
 				D023D6CB26166F080048E6C8 /* ProfileHeader.swift in Sources */,
