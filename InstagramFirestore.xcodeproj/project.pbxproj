@@ -49,7 +49,7 @@
 		D0EF62E425F037F40039FAA4 /* FeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF62E325F037F40039FAA4 /* FeedController.swift */; };
 		D0EF62E825F038070039FAA4 /* SearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF62E725F038070039FAA4 /* SearchController.swift */; };
 		D0EF62EB25F038170039FAA4 /* ImageSelectorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF62EA25F038170039FAA4 /* ImageSelectorController.swift */; };
-		D0EF62EE25F0381F0039FAA4 /* NotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF62ED25F0381F0039FAA4 /* NotificationsController.swift */; };
+		D0EF62EE25F0381F0039FAA4 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF62ED25F0381F0039FAA4 /* NotificationController.swift */; };
 		D0EF62F125F038270039FAA4 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0EF62F025F038270039FAA4 /* ProfileController.swift */; };
 		D0F3BA99261CFD5400A83FE1 /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F3BA98261CFD5400A83FE1 /* UserCell.swift */; };
 /* End PBXBuildFile section */
@@ -100,7 +100,7 @@
 		D0EF62E325F037F40039FAA4 /* FeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedController.swift; sourceTree = "<group>"; };
 		D0EF62E725F038070039FAA4 /* SearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchController.swift; sourceTree = "<group>"; };
 		D0EF62EA25F038170039FAA4 /* ImageSelectorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectorController.swift; sourceTree = "<group>"; };
-		D0EF62ED25F0381F0039FAA4 /* NotificationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsController.swift; sourceTree = "<group>"; };
+		D0EF62ED25F0381F0039FAA4 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		D0EF62F025F038270039FAA4 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		D0F3BA98261CFD5400A83FE1 /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		F0781E2B2F0C6E52315CB257 /* Pods-InstagramFirestore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstagramFirestore.debug.xcconfig"; path = "Target Support Files/Pods-InstagramFirestore/Pods-InstagramFirestore.debug.xcconfig"; sourceTree = "<group>"; };
@@ -238,7 +238,7 @@
 				D0EF62E325F037F40039FAA4 /* FeedController.swift */,
 				D0EF62E725F038070039FAA4 /* SearchController.swift */,
 				D0EF62EA25F038170039FAA4 /* ImageSelectorController.swift */,
-				D0EF62ED25F0381F0039FAA4 /* NotificationsController.swift */,
+				D0EF62ED25F0381F0039FAA4 /* NotificationController.swift */,
 				D0EF62F025F038270039FAA4 /* ProfileController.swift */,
 				D01157BD262FCD6000F8FAF1 /* UploadPostController.swift */,
 				D0565187267D36A5008E67E2 /* CommentController.swift */,
@@ -411,7 +411,7 @@
 				D0859E182617A5510091025F /* Constants.swift in Sources */,
 				D0EF62E025F035AA0039FAA4 /* MainTabController.swift in Sources */,
 				D01365092624EB63004E63E6 /* UserCellViewModel.swift in Sources */,
-				D0EF62EE25F0381F0039FAA4 /* NotificationsController.swift in Sources */,
+				D0EF62EE25F0381F0039FAA4 /* NotificationController.swift in Sources */,
 				D030720325F1D92600BAE50B /* Extensions.swift in Sources */,
 				D03BC59E2686548D0041267B /* NotificationService.swift in Sources */,
 				D099093E26063CC700FDB7DF /* ImageUploader.swift in Sources */,

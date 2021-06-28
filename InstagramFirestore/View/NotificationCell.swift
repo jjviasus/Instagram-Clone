@@ -7,6 +7,14 @@
 
 import UIKit
 
+// when we want to implement action handlers on a cell, we are going to need to delegate action back to our controller.
+
+protocol NotificationCellDelegate: class { // "class" protocols help you avoid retain cycles.
+    func cell(_ cell: NotificationCell, wantsToFollow uid: String)
+    func cell(_ cell: NotificationCell, wantsToUnfollow uid: String)
+    func cell(_ cell: NotificationCell, wantsToViewPost postId: String)
+}
+
 class NotificationCell: UITableViewCell {
     
     // MARK: - Properties
@@ -14,6 +22,8 @@ class NotificationCell: UITableViewCell {
     var viewModel: NotificationViewModel? {
         didSet { configure() }
     }
+    
+    weak var delegate: NotificationCellDelegate? // "weak" helps us avoid retain cycles (you don't want two strong references to the controller, you want a weak reference in the class we are delegating action from)
     
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -31,7 +41,7 @@ class NotificationCell: UITableViewCell {
         return label
     }()
     
-    private let postImageView: UIImageView = {
+    private lazy var postImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
@@ -44,7 +54,7 @@ class NotificationCell: UITableViewCell {
         return iv
     }() // () is a constructor
     
-    private let followButton: UIButton = {
+    private lazy var followButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Loading", for: .normal)
         button.layer.cornerRadius = 3
@@ -93,7 +103,8 @@ class NotificationCell: UITableViewCell {
     }
     
     @objc func handlePostTapped() {
-        
+        guard let postId = viewModel?.notification.postId else { return }
+        delegate?.cell(self, wantsToViewPost: postId)
     }
     
     // MARK: - Helpers
@@ -108,5 +119,9 @@ class NotificationCell: UITableViewCell {
         
         followButton.isHidden = !viewModel.shouldHidePostImage
         postImageView.isHidden = viewModel.shouldHidePostImage
+        
+        followButton.setTitle(viewModel.followButtonText, for: .normal)
+        followButton.backgroundColor = viewModel.followButtonBackgroundColor
+        followButton.setTitleColor(viewModel.followButtonTextColor, for: .normal)
     }
 }
