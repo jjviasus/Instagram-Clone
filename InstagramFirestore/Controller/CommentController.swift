@@ -136,15 +136,17 @@ extension CommentController: CommentInputAccessoryViewDelegate {
     func inputView(_ inputView: CommentInputAccessoryView, wantsToUploadComment comment: String) {
         
         guard let tab = tabBarController as? MainTabController else { return }
-        guard let user = tab.user else { return }
+        guard let currentUser = tab.user else { return }
         
         // show the loader so a user can't mash the button
         self.showLoader(true)
         
-        CommentService.uploadComment(comment: comment, postID: post.postId, user: user) { error in
+        CommentService.uploadComment(comment: comment, postID: post.postId, user: currentUser) { error in
             // as soon as it is finished uploading we make the loader go away and clear the text view
             self.showLoader(false)
             inputView.clearCommentTextView()
+            
+            NotificationService.uploadNotification(toUid: self.post.ownerUid, fromUser: currentUser, type: .comment, post: self.post)
         }
     }
 }

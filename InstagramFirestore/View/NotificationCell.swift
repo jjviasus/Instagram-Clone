@@ -67,16 +67,17 @@ class NotificationCell: UITableViewCell {
         profileImageView.layer.cornerRadius = 48 / 2
         profileImageView.centerY(inView: self, leftAnchor: leftAnchor, paddingLeft: 12) // a helper function to center something on the Y axis, anchors it to the left side of the cell, padding left means it sticks out 12 pixels from the right
         
-        addSubview(infoLabel)
-        infoLabel.centerY(inView: profileImageView, leftAnchor: profileImageView.rightAnchor, paddingLeft: 8)
-        
         addSubview(followButton)
         followButton.centerY(inView: self)
-        followButton.anchor(right: rightAnchor, paddingRight: 12, width: 100, height: 32)
+        followButton.anchor(right: rightAnchor, paddingRight: 12, width: 88, height: 32)
         
         addSubview(postImageView)
         postImageView.centerY(inView: self)
         postImageView.anchor(right: rightAnchor, paddingRight: 12, width: 40, height: 40)
+        
+        addSubview(infoLabel)
+        infoLabel.centerY(inView: profileImageView, leftAnchor: profileImageView.rightAnchor, paddingLeft: 8)
+        infoLabel.anchor(right: followButton.leftAnchor, paddingRight: 4)
         
         followButton.isHidden = true
     }
@@ -104,5 +105,8 @@ class NotificationCell: UITableViewCell {
         postImageView.sd_setImage(with: viewModel.postImageUrl)
         
         infoLabel.attributedText = viewModel.notificationMessage
+        
+        followButton.isHidden = !viewModel.shouldHidePostImage
+        postImageView.isHidden = viewModel.shouldHidePostImage
     }
 }
