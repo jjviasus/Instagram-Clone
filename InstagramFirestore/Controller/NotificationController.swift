@@ -5,6 +5,8 @@
 //  Created by Justin Viasus on 3/3/21.
 //
 
+// It's a good process for any time you have a process that involves contacting your api, you should show the loader.
+
 import UIKit
 
 private let reuseIdentifier = "NotificationCell"
@@ -16,6 +18,8 @@ class NotificationsController: UITableViewController {
     private var notifications = [Notification]() {
         didSet { tableView.reloadData() } // whenever a change is made to the Notification array, the table view is reloaded
     }
+    
+    private let refresher = UIRefreshControl()
     
     // MARK: - Lifecycle
     
@@ -47,6 +51,14 @@ class NotificationsController: UITableViewController {
         }
     }
     
+    // MARK: - Actions
+    
+    @objc func handleRefresh() {
+        notifications.removeAll()
+        fetchNotifications()
+        refresher.endRefreshing()
+    }
+    
     // MARK: - Helpers
     
     func configureTableView() {
@@ -56,6 +68,9 @@ class NotificationsController: UITableViewController {
         tableView.register(NotificationCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.rowHeight = 80
         tableView.separatorStyle = .none
+        
+        refresher.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        tableView.refreshControl = refresher
         
     }
 }
@@ -79,9 +94,11 @@ extension NotificationsController {
 
 extension NotificationsController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let uid = notifications[indexPath.row].uid
+        showLoader(true) // show the loading indicator (prevents the user from interacting with the UI)
         
-        UserService.fetchUser(withUid: uid) { user in
+        UserService.fetchUser(withUid: notifications[indexPath.row].uid) { user in
+            self.showLoader(false) // hide the loading indicator (allows the user to interact with the UI)
+            
             let controller = ProfileController(user: user)
             self.navigationController?.pushViewController(controller, animated: true)
         }
@@ -94,7 +111,10 @@ extension NotificationsController: NotificationCellDelegate {
     func cell(_ cell: NotificationCell, wantsToFollow uid: String) {
         //print("DEBUG: Follow user here..")
         
+        showLoader(true)
+        
         UserService.follow(uid: uid) { _ in
+            self.showLoader(false)
             cell.viewModel?.notification.userIsFollowed.toggle()
         }
     }
@@ -102,7 +122,10 @@ extension NotificationsController: NotificationCellDelegate {
     func cell(_ cell: NotificationCell, wantsToUnfollow uid: String) {
         //print("DEBUG: Unfollow user here..")
         
+        showLoader(true)
+        
         UserService.unfollow(uid: uid) { _ in
+            self.showLoader(false)
             cell.viewModel?.notification.userIsFollowed.toggle()
         }
     }
@@ -110,7 +133,10 @@ extension NotificationsController: NotificationCellDelegate {
     func cell(_ cell: NotificationCell, wantsToViewPost postId: String) {
         //print("DEBUG: Show post here..")
         
+        showLoader(true)
+        
         PostService.fetchPost(withPostId: postId) { post in
+            self.showLoader(false)
             let controller = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
             controller.post = post
             self.navigationController?.pushViewController(controller, animated: true)

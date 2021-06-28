@@ -54,6 +54,7 @@ struct PostService {
     
     // fetches a single post
     static func fetchPost(withPostId postId: String, completion: @escaping(Post) -> Void) {
+        //print("DEBUG: Fetching post..")
         COLLECTION_POSTS.document(postId).getDocument { snapshot, _ in
             guard let snapshot = snapshot else { return }
             guard let data = snapshot.data() else { return }

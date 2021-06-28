@@ -46,6 +46,11 @@ class NotificationCell: UITableViewCell {
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.backgroundColor = .lightGray
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handlePostTapped))
+        iv.isUserInteractionEnabled = true
+        iv.addGestureRecognizer(tap)
+        
         return iv
     }() // () is a constructor
     
