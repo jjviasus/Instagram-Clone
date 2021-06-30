@@ -100,4 +100,37 @@ struct PostService {
             completion(didLike)
         }
     }
+    
+    static func fetchFeedPosts(completion: @escaping([Post]) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        var posts = [Post]()
+        
+        // we get all the documents from the user-feed collection, which gives us back all the post ids
+        COLLECTION_USERS.document(uid).collection("user-feed").getDocuments { snapshot, error in
+            // loop through each one, using the document (post) id
+            snapshot?.documents.forEach({ document in
+                // fetch each post, append it to the post array, execute completion handler
+                fetchPost(withPostId: document.documentID) { post in
+                    posts.append(post)
+                    completion(posts)
+                }
+            })
+        }
+    }
+    
+    // we want to call this function after we follow somebody
+    static func updateUserFeedAfterFollowing(user: User) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let query = COLLECTION_POSTS.whereField("ownerUid", isEqualTo: user.uid)
+        query.getDocuments { (snapshot, error) in
+            guard let documents = snapshot?.documents else { return }
+            
+            let docIDs = documents.map({ $0.documentID })
+            
+            // loops through all the documents and creates a new document for each on that collection
+            docIDs.forEach { id in
+                COLLECTION_USERS.document(uid).collection("user-feed").document(id).setData([:])
+            }
+        }
+    }
 }

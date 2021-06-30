@@ -64,7 +64,7 @@ class FeedController: UICollectionViewController {
         guard post == nil else { return }
         
         // api call
-        PostService.fetchPosts { posts in
+        PostService.fetchFeedPosts { posts in
             self.posts = posts
             self.checkIfUserLikedPosts() // all the posts are fetched before we call this function
             self.collectionView.refreshControl?.endRefreshing()
@@ -189,9 +189,9 @@ extension FeedController: FeedCellDelegate {
             // the post has not been liked, we want to like it
             PostService.likePost(post: post) { _ in
                 // to check for an error, change _ to error above
-//                if let error = error {
-//                    print("DEBUG: Failed to like post with \(error)")
-//                }
+                //                if let error = error {
+                //                    print("DEBUG: Failed to like post with \(error)")
+                //                }
                 cell.likeButton.setImage(#imageLiteral(resourceName: "like_selected"), for: .normal)
                 cell.likeButton.tintColor = .red
                 cell.viewModel?.post.likes = post.likes + 1
