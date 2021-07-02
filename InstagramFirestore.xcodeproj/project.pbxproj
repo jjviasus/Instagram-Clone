@@ -25,6 +25,7 @@
 		D0565188267D36A5008E67E2 /* CommentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0565187267D36A5008E67E2 /* CommentController.swift */; };
 		D056518A267D3823008E67E2 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0565189267D3823008E67E2 /* CommentCell.swift */; };
 		D056518C267D424F008E67E2 /* CommentInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D056518B267D424F008E67E2 /* CommentInputAccessoryView.swift */; };
+		D071CA1D268FC46300728B56 /* ResetPasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D071CA1C268FC46300728B56 /* ResetPasswordController.swift */; };
 		D080BFFA261BE40B00373E18 /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D080BFF9261BE40B00373E18 /* ProfileHeaderViewModel.swift */; };
 		D0859E152617A50C0091025F /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0859E142617A50C0091025F /* UserService.swift */; };
 		D0859E182617A5510091025F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0859E172617A5510091025F /* Constants.swift */; };
@@ -74,6 +75,7 @@
 		D0565187267D36A5008E67E2 /* CommentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentController.swift; sourceTree = "<group>"; };
 		D0565189267D3823008E67E2 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
 		D056518B267D424F008E67E2 /* CommentInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputAccessoryView.swift; sourceTree = "<group>"; };
+		D071CA1C268FC46300728B56 /* ResetPasswordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordController.swift; sourceTree = "<group>"; };
 		D080BFF9261BE40B00373E18 /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		D0859E142617A50C0091025F /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		D0859E172617A5510091025F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			children = (
 				D01E541C25F883040059FC4F /* LoginController.swift */,
 				D01E541F25F883100059FC4F /* RegistrationController.swift */,
+				D071CA1C268FC46300728B56 /* ResetPasswordController.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				D056518C267D424F008E67E2 /* CommentInputAccessoryView.swift in Sources */,
 				D080BFFA261BE40B00373E18 /* ProfileHeaderViewModel.swift in Sources */,
 				D0A424E8262FD73200E4850E /* InputTextView.swift in Sources */,
+				D071CA1D268FC46300728B56 /* ResetPasswordController.swift in Sources */,
 				D0859E182617A5510091025F /* Constants.swift in Sources */,
 				D0EF62E025F035AA0039FAA4 /* MainTabController.swift in Sources */,
 				D01365092624EB63004E63E6 /* UserCellViewModel.swift in Sources */,
