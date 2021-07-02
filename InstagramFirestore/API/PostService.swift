@@ -21,8 +21,11 @@ struct PostService {
                         "ownderUid": uid,
                         "ownerImageUrl": user.profileImageUrl,
                         "ownerUsername": user.username] as [String : Any]
+                       
+            // get the document reference
+            let docRef = COLLECTION_POSTS.addDocument(data: data, completion: completion)
             
-            COLLECTION_POSTS.addDocument(data: data, completion: completion)
+            self.updateUserFeedAfterPost(postId: docRef.documentID)
         }
     }
     
@@ -119,7 +122,7 @@ struct PostService {
     }
     
     // we want to call this function after we follow somebody
-    static func updateUserFeedAfterFollowing(user: User) {
+    static func updateUserFeedAfterFollowing(user: User, didFollow: Bool) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let query = COLLECTION_POSTS.whereField("ownerUid", isEqualTo: user.uid)
         query.getDocuments { (snapshot, error) in
@@ -127,10 +130,32 @@ struct PostService {
             
             let docIDs = documents.map({ $0.documentID })
             
+            // populate the user feed structure
+            
             // loops through all the documents and creates a new document for each on that collection
             docIDs.forEach { id in
-                COLLECTION_USERS.document(uid).collection("user-feed").document(id).setData([:])
+                if didFollow {
+                    COLLECTION_USERS.document(uid).collection("user-feed").document(id).setData([:])
+                } else {
+                    COLLECTION_USERS.document(uid).collection("user-feed").document(id).delete()
+                }
             }
+        }
+    }
+    
+    private static func updateUserFeedAfterPost(postId: String) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        // this is grabbing the list of all the followers we have
+        COLLECTION_FOLLOWERS.document(uid).collection("user-followers").getDocuments { snapshot, _ in
+            guard let documents = snapshot?.documents else { return }
+            
+            documents.forEach { document in
+                COLLECTION_USERS.document(document.documentID).collection("user-feed").document(postId)
+                    .setData([:])
+            }
+            
+            COLLECTION_USERS.document(uid).collection("user-feed").document(postId).setData([:])
         }
     }
 }
