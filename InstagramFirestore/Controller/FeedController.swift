@@ -21,7 +21,10 @@ class FeedController: UICollectionViewController {
     }
     
     // if this has a value (not nil), then we only want to show one post in the feed, otherwise (nil) we want to show all the posts.
-    var post: Post?
+    var post: Post? {
+        // whenever this gets set, it will check if the user liked a post
+        didSet { checkIfUserLikedPosts() }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,12 +75,20 @@ class FeedController: UICollectionViewController {
     }
     
     func checkIfUserLikedPosts() {
-        // goes through every post and checks if it is liked or not
-        self.posts.forEach { post in
+        // check to see if the post exists, and if it does store it in the post property
+        if let post = post {
             PostService.checkIfUserLikedPost(post: post) { didLike in
-                // finds the index of the particular post we are looking at where the post id's are equal (50. Check If User Liked Post: 14:00 into video)
-                if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
-                    self.posts[index].didLike = didLike // we get back true or false for didLike from the API call
+                self.post?.didLike = didLike
+                self.collectionView.reloadData()
+            }
+        } else {
+            // goes through every post and checks if it is liked or not
+            posts.forEach { post in
+                PostService.checkIfUserLikedPost(post: post) { didLike in
+                    // finds the index of the particular post we are looking at where the post id's are equal (50. Check If User Liked Post: 14:00 into video)
+                    if let index = self.posts.firstIndex(where: { $0.postId == post.postId }) {
+                        self.posts[index].didLike = didLike // we get back true or false for didLike from the API call
+                    }
                 }
             }
         }
