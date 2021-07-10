@@ -22,14 +22,19 @@ class FeedController: UICollectionViewController {
     
     // if this has a value (not nil), then we only want to show one post in the feed, otherwise (nil) we want to show all the posts.
     var post: Post? {
-        // whenever this gets set, it will check if the user liked a post
-        didSet { checkIfUserLikedPosts() }
+        // whenever this gets set, it will reload the data
+        didSet { collectionView.reloadData() }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         fetchPosts()
+        
+        // checks if the post has been liked only if the post exists
+        if post != nil {
+            checkIfUserLikedPosts()
+        }
     }
     
     // MARK: - Actions
@@ -79,7 +84,6 @@ class FeedController: UICollectionViewController {
         if let post = post {
             PostService.checkIfUserLikedPost(post: post) { didLike in
                 self.post?.didLike = didLike
-                self.collectionView.reloadData()
             }
         } else {
             // goes through every post and checks if it is liked or not
