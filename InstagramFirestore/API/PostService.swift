@@ -46,10 +46,7 @@ struct PostService {
             guard let documents = snapshot?.documents else { return }
             
             var posts = documents.map({ Post(postId: $0.documentID, dictionary: $0.data()) })
-            
-            posts.sort { (post1, post2) -> Bool in
-                return post1.timestamp.seconds > post2.timestamp.seconds
-            }
+            posts.sort(by: { $0.timestamp.seconds > $1.timestamp.seconds })
             
             completion(posts)
         }
@@ -115,6 +112,12 @@ struct PostService {
                 // fetch each post, append it to the post array, execute completion handler
                 fetchPost(withPostId: document.documentID) { post in
                     posts.append(post)
+                    
+                    posts.sort(by: { $0.timestamp.seconds > $1.timestamp.seconds }) // same as below, except cleaned up
+//                    posts.sort { (post1, post2) -> Bool in
+//                        return post1.timestamp.seconds > post2.timestamp.seconds
+//                    }
+                    
                     completion(posts)
                 }
             })
