@@ -8,13 +8,16 @@
 import UIKit
 
 private let reuseIdentifier = "UserCell"
+private let postCellIdentifier = "ProfileCell"
 
-class SearchController: UITableViewController {
+class SearchController: UIViewController {
     
     // MARK: - Properties
     
+    private let tableView = UITableView()
     private var users = [User]()
     private var filteredUsers = [User]()
+    private var posts = [Post]()
     private let searchController = UISearchController(searchResultsController: nil)
     
     // Determines whether or not the user is searching something.
@@ -24,13 +27,24 @@ class SearchController: UITableViewController {
         return searchController.isActive && !searchController.searchBar.text!.isEmpty
     }
     
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.delegate = self
+        cv.dataSource = self
+        cv.backgroundColor = .white
+        cv.register(ProfileCell.self, forCellWithReuseIdentifier: postCellIdentifier)
+        return cv
+    }()
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureSearchController()
-        configureTableView()
+        configureUI()
         fetchUsers()
+        fetchPosts()
     }
     
     // MARK: - API
@@ -42,13 +56,31 @@ class SearchController: UITableViewController {
         }
     }
     
+    func fetchPosts() {
+        PostService.fetchPosts { posts in
+            self.posts = posts
+            self.collectionView.reloadData()
+        }
+    }
+    
     // MARK: - Helpers
     
-    func configureTableView() {
+    func configureUI() {
         view.backgroundColor = .white
+        navigationItem.title = "Explore"
+        
+        tableView.delegate = self
+        tableView.dataSource = self
         
         tableView.register(UserCell.self, forCellReuseIdentifier: reuseIdentifier) // here we are registering a cell that has a reuse identifier
         tableView.rowHeight = 64
+        
+        view.addSubview(tableView)
+        tableView.fillSuperview() // makes the table view fill up the whole screen
+        tableView.isHidden = true // we want the table view to initially be hidden
+        
+        view.addSubview(collectionView)
+        collectionView.fillSuperview()
     }
     
     func configureSearchController() {
@@ -56,6 +88,7 @@ class SearchController: UITableViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "Search"
+        searchController.searchBar.delegate = self
         navigationItem.searchController = searchController
         definesPresentationContext = false
     }
@@ -63,14 +96,14 @@ class SearchController: UITableViewController {
 
 // MARK: - UITableViewDataSource
 
-extension SearchController {
+extension SearchController: UITableViewDataSource {
     // defines how many rows the table view has
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return inSearchMode ? filteredUsers.count : users.count
     }
     
     // defines what each cell in the table view contains
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! UserCell
         
         let user = inSearchMode ? filteredUsers[indexPath.row] : users[indexPath.row]
@@ -84,11 +117,30 @@ extension SearchController {
 
 // MARK: - UITableViewDelegate
 
-extension SearchController {
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+extension SearchController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = inSearchMode ? filteredUsers[indexPath.row] : users[indexPath.row]
         let controller = ProfileController(user: user)
         navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
+extension SearchController: UISearchBarDelegate {
+    // executes when we click into the search bar (we then want to show our table view and hide our collection view)
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.showsCancelButton = true
+        collectionView.isHidden = true
+        tableView.isHidden = false
+    }
+    
+    // executes when we hit the cancel button
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true) // hides the keyboard
+        searchBar.showsCancelButton = false
+        searchBar.text = nil
+        
+        collectionView.isHidden = false
+        tableView.isHidden = true
     }
 }
 
@@ -104,5 +156,57 @@ extension SearchController: UISearchResultsUpdating {
         
         print("DEBUG: Filtered users \(filteredUsers)")
         self.tableView.reloadData()
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension SearchController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        posts.count
+    }
+    
+    // this function tells our collection view what cell to render for the collection view (we cant it to be a ProfileCell)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: postCellIdentifier, for: indexPath) as! ProfileCell // dequeuing is just Swift's memory management
+        cell.viewModel = PostViewModel(post: posts[indexPath.row])
+        return cell
+        
+        // when cells go off screen they get dequeued and if they are about to come back on the screen they get queued
+        // it uses the cell identifier to check whether the cell has been previously used before and if it has it pulls it out of some sort of memory cache to display it on screen
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+extension SearchController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // create an instance of the feed controller
+        let controller = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
+        
+        // set the post using the correct one that we selected
+        controller.post = posts[indexPath.row]
+        
+        // pushes the controller onto the navigation stack
+        navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
+// MARK: UICollectionViewDelegateFlowLayout
+
+// where we determine all the sizing for the collection view stuff
+extension SearchController: UICollectionViewDelegateFlowLayout {
+    // allows us to define the amount of space between the columns and rows
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (view.frame.width - 2) / 3
+        return CGSize(width: width, height: width)
     }
 }
